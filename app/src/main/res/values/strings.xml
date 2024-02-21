@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">RickMortyCollection</string>
+    <string name="back">arrow_back_icon</string>
+    <string name="nav_bottom_home">Home</string>
 </resources>
