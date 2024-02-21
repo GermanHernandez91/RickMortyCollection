@@ -4,6 +4,12 @@ import android.app.Application
 import androidx.room.Room
 import com.germanhernandez.rickmortycollection.data.local.AppDatabase
 import com.germanhernandez.rickmortycollection.data.remote.RickMortyApi
+import com.germanhernandez.rickmortycollection.data.repository.CharacterRepositoryImpl
+import com.germanhernandez.rickmortycollection.data.repository.EpisodeRepositoryImpl
+import com.germanhernandez.rickmortycollection.data.repository.LocationRepositoryImpl
+import com.germanhernandez.rickmortycollection.domain.repository.CharacterRepository
+import com.germanhernandez.rickmortycollection.domain.repository.EpisodeRepository
+import com.germanhernandez.rickmortycollection.domain.repository.LocationRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,5 +56,23 @@ object AppDataModule {
             .client(client)
             .build()
             .create()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharacterRepository(api: RickMortyApi, database: AppDatabase): CharacterRepository {
+        return CharacterRepositoryImpl(database.characterDao, api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideLocationRepository(api: RickMortyApi, database: AppDatabase): LocationRepository {
+        return LocationRepositoryImpl(database.locationDao, api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideEpisodeRepository(api: RickMortyApi, database: AppDatabase): EpisodeRepository {
+        return EpisodeRepositoryImpl(database.episodeDao, api)
     }
 }

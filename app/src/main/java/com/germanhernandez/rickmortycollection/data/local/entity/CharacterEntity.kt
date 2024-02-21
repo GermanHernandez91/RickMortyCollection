@@ -18,9 +18,9 @@ data class CharacterEntity(
     val type: String? = null,
     val gender: String,
     @TypeConverters(OriginEntityConverters::class)
-    val origin: LocationEntity,
+    val origin: LocationEntity?,
     @TypeConverters(LocationEntityConverters::class)
-    val location: LocationEntity,
+    val location: LocationEntity?,
     @ColumnInfo(name = "image_url") val imageUrl: String,
     val episode: List<String>? = emptyList()
 )

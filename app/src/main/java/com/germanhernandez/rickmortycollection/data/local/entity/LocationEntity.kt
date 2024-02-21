@@ -11,5 +11,5 @@ data class LocationEntity(
     val name: String,
     val type: String? = null,
     val dimension: String? = null,
-    val residents: List<CharacterEntity>? = emptyList()
+    val residents: List<String>? = emptyList()
 )
