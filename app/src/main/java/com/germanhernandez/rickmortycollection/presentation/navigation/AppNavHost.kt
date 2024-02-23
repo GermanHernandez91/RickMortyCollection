@@ -1,5 +1,6 @@
 package com.germanhernandez.rickmortycollection.presentation.navigation
 
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,7 +12,8 @@ import com.germanhernandez.rickmortycollection.presentation.home.HomeScreen
 @Composable
 fun AppNavHost(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    snackBarHostState: SnackbarHostState
 ) {
     NavHost(
         modifier = modifier,
@@ -19,7 +21,10 @@ fun AppNavHost(
         startDestination = Route.Home.name
     ) {
         composable(route = Route.Home.name) {
-            HomeScreen(navController = navHostController)
+            HomeScreen(
+                navController = navHostController,
+                snackBarHostState = snackBarHostState
+            )
         }
     }
 }
