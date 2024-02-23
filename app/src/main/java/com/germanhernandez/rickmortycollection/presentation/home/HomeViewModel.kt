@@ -11,7 +11,6 @@ import com.germanhernandez.rickmortycollection.core.util.UiText
 import com.germanhernandez.rickmortycollection.domain.use_case.CharacterUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject

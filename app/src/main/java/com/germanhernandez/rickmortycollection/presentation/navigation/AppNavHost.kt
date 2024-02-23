@@ -23,7 +23,10 @@ fun AppNavHost(
         composable(route = Route.Home.name) {
             HomeScreen(
                 navController = navHostController,
-                snackBarHostState = snackBarHostState
+                snackBarHostState = snackBarHostState,
+                onCharactersClick = {
+                    // TODO: Navigate to CharacterSearchScreen
+                }
             )
         }
     }

@@ -3,17 +3,12 @@ package com.germanhernandez.rickmortycollection
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.germanhernandez.rickmortycollection.presentation.navigation.AppNavHost
 import com.germanhernandez.rickmortycollection.ui.theme.RickMortyCollectionTheme
@@ -28,7 +23,9 @@ class MainActivity : ComponentActivity() {
                 val navHostComposable = rememberNavController()
                 val snackBarHostState = remember { SnackbarHostState() }
 
-                Scaffold {
+                Scaffold(
+                    snackbarHost = { SnackbarHost(snackBarHostState) }
+                ) {
                     AppNavHost(
                         navHostController = navHostComposable,
                         snackBarHostState = snackBarHostState,

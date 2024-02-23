@@ -3,4 +3,6 @@
     <string name="back">arrow_back_icon</string>
     <string name="nav_bottom_home">Home</string>
     <string name="error_something_went_wrong">Something went wrong</string>
+    <string name="characters">Characters</string>
+    <string name="arrow_forward">Arrow forward</string>
 </resources>
