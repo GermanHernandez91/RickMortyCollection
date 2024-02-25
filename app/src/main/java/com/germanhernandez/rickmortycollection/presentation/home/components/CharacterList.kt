@@ -2,7 +2,7 @@ package com.germanhernandez.rickmortycollection.presentation.home.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -16,7 +16,7 @@ fun CharacterList(
     characters: List<Character> = emptyList()
 ) {
     LazyRow(
-        modifier = modifier.fillMaxSize(),
+        modifier = modifier.fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {

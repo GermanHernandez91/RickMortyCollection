@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.germanhernandez.rickmortycollection.core.navigation.Route
+import com.germanhernandez.rickmortycollection.presentation.characters.CharactersScreen
 import com.germanhernandez.rickmortycollection.presentation.home.HomeScreen
 
 @Composable
@@ -25,7 +26,14 @@ fun AppNavHost(
                 navController = navHostController,
                 snackBarHostState = snackBarHostState,
                 onCharactersClick = {
-                    // TODO: Navigate to CharacterSearchScreen
+                    navHostController.navigate(Route.Characters.name)
+                }
+            )
+        }
+        composable(route = Route.Characters.name) {
+            CharactersScreen(
+                onNavigateUp = {
+                    navHostController.navigateUp()
                 }
             )
         }

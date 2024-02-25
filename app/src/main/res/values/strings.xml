@@ -1,8 +1,17 @@
 <resources>
     <string name="app_name">RickMortyCollection</string>
-    <string name="back">arrow_back_icon</string>
-    <string name="nav_bottom_home">Home</string>
-    <string name="error_something_went_wrong">Something went wrong</string>
+
+    <!-- Screens -->
     <string name="characters">Characters</string>
+
+    <!-- Fallback descriptions -->
+    <string name="back">arrow_back_icon</string>
     <string name="arrow_forward">Arrow forward</string>
+    <string name="search">Search icon</string>
+
+    <!-- Navigation -->
+    <string name="nav_bottom_home">Home</string>
+
+    <!-- Errors -->
+    <string name="error_something_went_wrong">Something went wrong</string>
 </resources>
