@@ -1,5 +1,6 @@
 package com.germanhernandez.rickmortycollection.presentation.home.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +14,8 @@ import com.germanhernandez.rickmortycollection.domain.model.Character
 @Composable
 fun CharacterList(
     modifier: Modifier = Modifier,
-    characters: List<Character> = emptyList()
+    characters: List<Character> = emptyList(),
+    onCharacterItemClick: (Int) -> Unit
 ) {
     LazyRow(
         modifier = modifier.fillMaxWidth(),
@@ -21,7 +23,11 @@ fun CharacterList(
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(characters) { item ->
-            CharacterListItem(character = item)
+            CharacterListItem(
+                character = item,
+                modifier = Modifier
+                    .clickable { item.id?.let { onCharacterItemClick(it) } }
+            )
         }
     }
 }

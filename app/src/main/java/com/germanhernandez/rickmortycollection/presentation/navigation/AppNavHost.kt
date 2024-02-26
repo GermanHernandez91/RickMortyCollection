@@ -31,6 +31,9 @@ fun AppNavHost(
                 snackBarHostState = snackBarHostState,
                 onCharactersClick = {
                     navHostController.navigate(Route.Characters.name)
+                },
+                onCharacterItemClick = {
+                    navHostController.navigate(Route.CharacterDetail.withArgs(it.toString()))
                 }
             )
         }
@@ -59,7 +62,10 @@ fun AppNavHost(
                 type = NavType.IntType
             })
         ) {
-            CharacterDetailScreen()
+            CharacterDetailScreen(
+                snackBarHostState = snackBarHostState,
+                onNavigateUp = { navHostController.navigateUp() }
+            )
         }
     }
 }

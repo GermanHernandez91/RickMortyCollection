@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeEvent.OnCharacterClick -> {
                 viewModelScope.launch {
-                    _uiEvent.send(UiEvent.NavigateUp)
+                    _uiEvent.send(UiEvent.NavigateUp(event.id))
                 }
             }
         }

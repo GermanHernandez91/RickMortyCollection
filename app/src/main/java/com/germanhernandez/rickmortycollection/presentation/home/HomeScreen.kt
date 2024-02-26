@@ -30,7 +30,8 @@ import com.germanhernandez.rickmortycollection.presentation.navigation.NavTopBar
 fun HomeScreen(
     navController: NavController,
     snackBarHostState: SnackbarHostState,
-    onCharactersClick: (Int) -> Unit,
+    onCharactersClick: () -> Unit,
+    onCharacterItemClick: (Int) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -46,7 +47,7 @@ fun HomeScreen(
                 }
 
                 is UiEvent.NavigateUp -> {
-                    onCharactersClick()
+                    onCharacterItemClick(event.arg as Int)
                 }
 
                 else -> Unit
@@ -64,11 +65,14 @@ fun HomeScreen(
         bottomBar = {
             NavBottomBar(navController = navController)
         }
-    ) {
+    ) { it ->
         Column(modifier = Modifier.padding(it)) {
             HomeBody(
                 characters = state.characters,
-                onCharactersClick = onCharactersClick
+                onCharactersClick = onCharactersClick,
+                onCharacterItemClick = { id ->
+                    viewModel.onEvent(HomeEvent.OnCharacterClick(id))
+                }
             )
 
             Box(
@@ -87,7 +91,8 @@ fun HomeScreen(
 fun HomeBody(
     modifier: Modifier = Modifier,
     characters: List<Character> = emptyList(),
-    onCharactersClick: () -> Unit
+    onCharactersClick: () -> Unit,
+    onCharacterItemClick: (Int) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -96,7 +101,8 @@ fun HomeBody(
         Spacer(modifier = Modifier.height(16.dp))
         CharacterList(
             modifier = modifier,
-            characters = characters
+            characters = characters,
+            onCharacterItemClick = onCharacterItemClick
         )
     }
 }
