@@ -1,4 +1,4 @@
-package com.germanhernandez.rickmortycollection.presentation.home
+package com.germanhernandez.rickmortycollection.presentation.search
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,51 +17,58 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
-    private val characterUseCases: CharacterUseCases
+class SearchViewModel @Inject constructor(
+    private val getCharacterUseCases: CharacterUseCases
 ) : ViewModel() {
 
-    var state by mutableStateOf(HomeState())
+    var state by mutableStateOf(SearchState())
         private set
 
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    init {
-        onEvent(HomeEvent.OnInitialize)
-    }
-
-    fun onEvent(event: HomeEvent) {
+    fun onEvent(event: SearchEvent) {
         when (event) {
-            is HomeEvent.OnInitialize -> {
-                loadCharacters()
+            is SearchEvent.OnQueryChange -> {
+                state = state.copy(query = event.query)
+            }
+
+            is SearchEvent.OnSearch -> {
+                performSearch()
+            }
+
+            is SearchEvent.OnSearchFocusChanged -> {
+                state = state.copy(
+                    isHintVisible = !event.isFocused && state.query.isBlank()
+                )
             }
         }
     }
 
-    private fun loadCharacters() {
+    private fun performSearch() {
         viewModelScope.launch {
-            state = state.copy(isLoading = false, characters = emptyList())
+            state = state.copy(isSearching = true, searchResults = emptyList())
 
-            characterUseCases
+            getCharacterUseCases
                 .getAllCharactersUseCase(
                     page = Constants.DEFAULT_CHARACTER_PAGE,
-                    name = null,
-                    type = null,
-                    species = null,
+                    name = state.query,
                     status = null,
+                    type = null,
+                    species = null
                 )
                 .onSuccess { characters ->
                     state = state.copy(
-                        isLoading = false,
-                        characters = characters
+                        isSearching = false,
+                        query = "",
+                        searchResults = characters
                     )
                 }
                 .onFailure {
-                    state = state.copy(isLoading = false)
+                    state = state.copy(isSearching = false)
                     _uiEvent.send(
                         UiEvent.ShowSnackBar(
-                            UiText.StringResource(R.string.error_something_went_wrong)
+                            message = UiText.StringResource(R.string.error_something_went_wrong)
                         )
                     )
                 }

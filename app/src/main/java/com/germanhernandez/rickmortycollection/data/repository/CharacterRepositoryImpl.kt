@@ -13,7 +13,9 @@ class CharacterRepositoryImpl(
     private val dao: CharacterDao,
     private val api: RickMortyApi
 ) : CharacterRepository {
+
     override suspend fun getAllCharacters(
+        page: Int,
         name: String?,
         status: String?,
         species: String?,
@@ -21,7 +23,7 @@ class CharacterRepositoryImpl(
         gender: String?
     ): Result<List<Character>> {
         return try {
-            val characterResultDto = api.getCharacters(name, status, species, type, gender)
+            val characterResultDto = api.getCharacters(page, name, status, species, type, gender)
             Result.success(
                 characterResultDto.results.map { it.toCharacter() }
             )

@@ -8,11 +8,12 @@ class GetAllCharactersUseCase(
 ) {
 
     suspend operator fun invoke(
+        page: Int,
         name: String?,
         status: String?,
         type: String?,
         species: String?
     ): Result<List<Character>> {
-        return repository.getAllCharacters(name, status, species, type, status)
+        return repository.getAllCharacters(page, name, status, species, type, status)
     }
 }

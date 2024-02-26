@@ -17,7 +17,7 @@ fun CharacterList(
 ) {
     LazyRow(
         modifier = modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 16.dp),
+        contentPadding = PaddingValues(16.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(characters) { item ->

@@ -3,6 +3,7 @@
 
     <!-- Screens -->
     <string name="characters">Characters</string>
+    <string name="search_characters">Search Characters</string>
 
     <!-- Fallback descriptions -->
     <string name="back">arrow_back_icon</string>
@@ -14,4 +15,11 @@
 
     <!-- Errors -->
     <string name="error_something_went_wrong">Something went wrong</string>
+
+    <!-- Characters -->
+    <string name="characters_item_info">%s - %s</string>
+
+    <!-- Search -->
+    <string name="search_characters_hint">Search character</string>
+    <string name="no_results">No Results\n</string>
 </resources>

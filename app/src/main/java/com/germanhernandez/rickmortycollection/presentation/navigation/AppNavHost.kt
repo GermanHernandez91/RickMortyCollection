@@ -9,6 +9,7 @@ import androidx.navigation.compose.composable
 import com.germanhernandez.rickmortycollection.core.navigation.Route
 import com.germanhernandez.rickmortycollection.presentation.characters.CharactersScreen
 import com.germanhernandez.rickmortycollection.presentation.home.HomeScreen
+import com.germanhernandez.rickmortycollection.presentation.search.SearchScreen
 
 @Composable
 fun AppNavHost(
@@ -30,11 +31,22 @@ fun AppNavHost(
                 }
             )
         }
+
         composable(route = Route.Characters.name) {
             CharactersScreen(
                 onNavigateUp = {
                     navHostController.navigateUp()
+                },
+                onSearchClick = {
+                    navHostController.navigate(Route.Search.name)
                 }
+            )
+        }
+
+        composable(route = Route.Search.name) {
+            SearchScreen(
+                snackBarHostState = snackBarHostState,
+                onNavigateUp = { navHostController.navigateUp() }
             )
         }
     }
