@@ -30,7 +30,7 @@ import com.germanhernandez.rickmortycollection.presentation.navigation.NavTopBar
 fun HomeScreen(
     navController: NavController,
     snackBarHostState: SnackbarHostState,
-    onCharactersClick: () -> Unit,
+    onCharactersClick: (Int) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -43,6 +43,10 @@ fun HomeScreen(
                     snackBarHostState.showSnackbar(
                         message = event.message.asString(context)
                     )
+                }
+
+                is UiEvent.NavigateUp -> {
+                    onCharactersClick()
                 }
 
                 else -> Unit

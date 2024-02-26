@@ -4,9 +4,12 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.germanhernandez.rickmortycollection.core.navigation.Route
+import com.germanhernandez.rickmortycollection.presentation.character_detail.CharacterDetailScreen
 import com.germanhernandez.rickmortycollection.presentation.characters.CharactersScreen
 import com.germanhernandez.rickmortycollection.presentation.home.HomeScreen
 import com.germanhernandez.rickmortycollection.presentation.search.SearchScreen
@@ -48,6 +51,15 @@ fun AppNavHost(
                 snackBarHostState = snackBarHostState,
                 onNavigateUp = { navHostController.navigateUp() }
             )
+        }
+
+        composable(
+            route = Route.CharacterDetail.name,
+            arguments = listOf(navArgument(Route.CHARACTER_DETAIL_ID_ARGUMENT) {
+                type = NavType.IntType
+            })
+        ) {
+            CharacterDetailScreen()
         }
     }
 }
