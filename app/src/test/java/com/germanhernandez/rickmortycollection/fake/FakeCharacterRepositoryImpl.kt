@@ -11,6 +11,7 @@ class FakeCharacterRepositoryImpl : CharacterRepository {
     var errorToReturn: Exception? = null
 
     override suspend fun getAllCharacters(
+        page: Int,
         name: String?,
         status: String?,
         species: String?,

@@ -58,6 +58,7 @@ class CharacterRepositoryImplTest {
                 .setBody(validCharacterResponse)
         )
         val result = repository.getAllCharacters(
+            page = 1,
             name = null,
             status = null,
             species = null,
@@ -77,6 +78,7 @@ class CharacterRepositoryImplTest {
         )
 
         val result = repository.getAllCharacters(
+            page = 1,
             name = null,
             status = null,
             species = null,
@@ -95,6 +97,7 @@ class CharacterRepositoryImplTest {
                 .setBody(validCharacterResponse)
         )
         val result = repository.getAllCharacters(
+            page = 1,
             name = "Rick Sanchez",
             status = null,
             species = null,
@@ -112,6 +115,7 @@ class CharacterRepositoryImplTest {
                 .setBody(invalidCharacterResponse)
         )
         val result = repository.getAllCharacters(
+            page = 1,
             name = "Rick Sanchez",
             status = null,
             species = null,

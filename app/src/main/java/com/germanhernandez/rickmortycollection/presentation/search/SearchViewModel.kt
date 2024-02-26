@@ -18,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val getCharacterUseCases: CharacterUseCases
+    private val characterUseCases: CharacterUseCases
 ) : ViewModel() {
 
     var state by mutableStateOf(SearchState())
@@ -49,7 +49,7 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             state = state.copy(isSearching = true, searchResults = emptyList())
 
-            getCharacterUseCases
+            characterUseCases
                 .getAllCharactersUseCase(
                     page = Constants.DEFAULT_CHARACTER_PAGE,
                     name = state.query,

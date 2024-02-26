@@ -28,7 +28,7 @@ class GetAllCharactersUseCaseTest {
     fun `Invoke, valid response, returns results`() = runBlocking {
         assertThat(
             getAllCharactersUseCaseTest
-                .invoke(null, null, null, null)
+                .invoke(1, null, null, null, null)
         ).isEqualTo(Result.success(characters))
     }
 }
