@@ -1,6 +1,5 @@
 package com.germanhernandez.rickmortycollection.presentation.home.components
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,8 +24,7 @@ fun CharacterList(
         items(characters) { item ->
             CharacterListItem(
                 character = item,
-                modifier = Modifier
-                    .clickable { item.id?.let { onCharacterItemClick(it) } }
+                onCharacterClick = onCharacterItemClick
             )
         }
     }

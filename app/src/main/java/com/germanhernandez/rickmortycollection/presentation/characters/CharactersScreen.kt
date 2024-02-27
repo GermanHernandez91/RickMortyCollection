@@ -9,11 +9,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.germanhernandez.rickmortycollection.R
 import com.germanhernandez.rickmortycollection.core.navigation.Route
+import com.germanhernandez.rickmortycollection.core.util.UiEvent
 import com.germanhernandez.rickmortycollection.presentation.characters.components.CharactersList
 import com.germanhernandez.rickmortycollection.presentation.navigation.NavTopBar
 
@@ -21,9 +24,21 @@ import com.germanhernandez.rickmortycollection.presentation.navigation.NavTopBar
 fun CharactersScreen(
     onNavigateUp: () -> Unit,
     onSearchClick: () -> Unit,
+    onCharacterItemClick: (String) -> Unit,
     viewModel: CharactersViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
     val state = viewModel.state
+
+    LaunchedEffect(key1 = context) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.Navigate -> onCharacterItemClick(event.arg.orEmpty())
+
+                else -> Unit
+            }
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -44,7 +59,10 @@ fun CharactersScreen(
     ) {
         CharactersBody(
             state = state,
-            modifier = Modifier.padding(it)
+            modifier = Modifier.padding(it),
+            onCharacterClick = { id ->
+                viewModel.onEvent(CharactersEvent.OnCharacterClick(id))
+            }
         )
     }
 }
@@ -52,11 +70,15 @@ fun CharactersScreen(
 @Composable
 fun CharactersBody(
     modifier: Modifier = Modifier,
-    state: CharactersState
+    state: CharactersState,
+    onCharacterClick: (Int) -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        CharactersList(characters = state.characters)
+        CharactersList(
+            characters = state.characters,
+            onCharacterClick = onCharacterClick
+        )
     }
 }

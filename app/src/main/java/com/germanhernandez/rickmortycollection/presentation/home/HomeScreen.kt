@@ -31,7 +31,7 @@ fun HomeScreen(
     navController: NavController,
     snackBarHostState: SnackbarHostState,
     onCharactersClick: () -> Unit,
-    onCharacterItemClick: (Int) -> Unit,
+    onCharacterItemClick: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -46,9 +46,7 @@ fun HomeScreen(
                     )
                 }
 
-                is UiEvent.NavigateUp -> {
-                    onCharacterItemClick(event.arg as Int)
-                }
+                is UiEvent.Navigate -> onCharacterItemClick(event.arg.orEmpty())
 
                 else -> Unit
             }

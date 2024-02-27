@@ -32,8 +32,8 @@ fun AppNavHost(
                 onCharactersClick = {
                     navHostController.navigate(Route.Characters.name)
                 },
-                onCharacterItemClick = {
-                    navHostController.navigate(Route.CharacterDetail.withArgs(it.toString()))
+                onCharacterItemClick = { arg ->
+                    navHostController.navigate(Route.CharacterDetail.withArgs(arg))
                 }
             )
         }
@@ -45,6 +45,9 @@ fun AppNavHost(
                 },
                 onSearchClick = {
                     navHostController.navigate(Route.Search.name)
+                },
+                onCharacterItemClick = { arg ->
+                    navHostController.navigate(Route.CharacterDetail.withArgs(arg))
                 }
             )
         }
@@ -52,7 +55,10 @@ fun AppNavHost(
         composable(route = Route.Search.name) {
             SearchScreen(
                 snackBarHostState = snackBarHostState,
-                onNavigateUp = { navHostController.navigateUp() }
+                onNavigateUp = { navHostController.navigateUp() },
+                onCharacterItemClick = { arg ->
+                    navHostController.navigate(Route.CharacterDetail.withArgs(arg))
+                }
             )
         }
 

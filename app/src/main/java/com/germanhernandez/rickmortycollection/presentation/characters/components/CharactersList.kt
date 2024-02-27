@@ -13,7 +13,8 @@ import com.germanhernandez.rickmortycollection.domain.model.Character
 @Composable
 fun CharactersList(
     modifier: Modifier = Modifier,
-    characters: List<Character>
+    characters: List<Character>,
+    onCharacterClick: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize(),
@@ -21,7 +22,10 @@ fun CharactersList(
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         items(characters) { item ->
-            CharactersItem(character = item)
+            CharactersItem(
+                character = item,
+                onCharacterClick = onCharacterClick
+            )
         }
     }
 }

@@ -4,4 +4,5 @@ sealed class SearchEvent {
     data class OnQueryChange(val query: String) : SearchEvent()
     data object OnSearch : SearchEvent()
     data class OnSearchFocusChanged(val isFocused: Boolean) : SearchEvent()
+    data class OnCharacterClick(val id: Int) : SearchEvent()
 }

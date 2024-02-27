@@ -42,6 +42,12 @@ class SearchViewModel @Inject constructor(
                     isHintVisible = !event.isFocused && state.query.isBlank()
                 )
             }
+
+            is SearchEvent.OnCharacterClick -> {
+                viewModelScope.launch {
+                    _uiEvent.send(UiEvent.Navigate(event.id.toString()))
+                }
+            }
         }
     }
 

@@ -36,6 +36,7 @@ import com.germanhernandez.rickmortycollection.presentation.search.components.Se
 fun SearchScreen(
     snackBarHostState: SnackbarHostState,
     onNavigateUp: () -> Unit,
+    onCharacterItemClick: (String) -> Unit,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -52,6 +53,8 @@ fun SearchScreen(
                     keyboardController?.hide()
 
                 }
+
+                is UiEvent.Navigate -> onCharacterItemClick(event.arg.orEmpty())
 
                 else -> Unit
             }
@@ -88,7 +91,12 @@ fun SearchScreen(
                 }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            SearchBody(searchResults = state.searchResults)
+            SearchBody(
+                searchResults = state.searchResults,
+                onCharacterClick = {
+                    viewModel.onEvent(SearchEvent.OnCharacterClick(it))
+                },
+            )
 
             Box(
                 modifier = Modifier.fillMaxSize(),
@@ -112,7 +120,12 @@ fun SearchScreen(
 @Composable
 fun SearchBody(
     modifier: Modifier = Modifier,
-    searchResults: List<Character>
+    searchResults: List<Character>,
+    onCharacterClick: (Int) -> Unit
 ) {
-    CharactersList(characters = searchResults, modifier = modifier)
+    CharactersList(
+        characters = searchResults,
+        modifier = modifier,
+        onCharacterClick = onCharacterClick
+    )
 }

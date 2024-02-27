@@ -23,7 +23,7 @@ class CharacterDetailViewModel @Inject constructor(
     private val charactersUseCases: CharacterUseCases
 ) : ViewModel() {
 
-    private val id: Int? = savedStateHandle[Route.CHARACTER_DETAIL_ID_ARGUMENT]
+    private val id: Int = checkNotNull(savedStateHandle[Route.CHARACTER_DETAIL_ID_ARGUMENT])
 
     var state by mutableStateOf(CharacterDetailState())
         private set
