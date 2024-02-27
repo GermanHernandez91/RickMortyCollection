@@ -11,6 +11,7 @@ import com.germanhernandez.rickmortycollection.core.navigation.Route
 import com.germanhernandez.rickmortycollection.core.util.UiEvent
 import com.germanhernandez.rickmortycollection.core.util.UiText
 import com.germanhernandez.rickmortycollection.domain.use_case.CharacterUseCases
+import com.germanhernandez.rickmortycollection.domain.use_case.FilterEpisodeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CharacterDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val charactersUseCases: CharacterUseCases
+    private val charactersUseCases: CharacterUseCases,
+    private val filterEpisodeUseCase: FilterEpisodeUseCase
 ) : ViewModel() {
 
     private val id: Int = checkNotNull(savedStateHandle[Route.CHARACTER_DETAIL_ID_ARGUMENT])
@@ -40,6 +42,15 @@ class CharacterDetailViewModel @Inject constructor(
             is CharacterDetailEvent.OnInitialize -> {
                 loadCharacterById()
             }
+
+            is CharacterDetailEvent.OnToggleEpisodeClick -> {
+                state =
+                    state.copy(
+                        episodeUiState = state.episodeUiState.copy(
+                            isExpanded = !state.episodeUiState.isExpanded
+                        )
+                    )
+            }
         }
     }
 
@@ -52,7 +63,10 @@ class CharacterDetailViewModel @Inject constructor(
                 .onSuccess { character ->
                     state = state.copy(
                         isLoading = false,
-                        character = character
+                        character = character,
+                        episodeUiState = EpisodeUiState(
+                            episodes = filterEpisodeUseCase(character.episode.orEmpty())
+                        )
                     )
                 }
                 .onFailure {

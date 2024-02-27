@@ -5,6 +5,7 @@ import com.germanhernandez.rickmortycollection.domain.repository.EpisodeReposito
 import com.germanhernandez.rickmortycollection.domain.repository.LocationRepository
 import com.germanhernandez.rickmortycollection.domain.use_case.CharacterUseCases
 import com.germanhernandez.rickmortycollection.domain.use_case.EpisodeUseCases
+import com.germanhernandez.rickmortycollection.domain.use_case.FilterEpisodeUseCase
 import com.germanhernandez.rickmortycollection.domain.use_case.LocationUseCases
 import com.germanhernandez.rickmortycollection.domain.use_case.character.AddFavouriteCharacterUseCase
 import com.germanhernandez.rickmortycollection.domain.use_case.character.DeleteFavouriteCharacterUseCase
@@ -71,5 +72,11 @@ object AppDomainModule {
             getLocationByIdUseCase = GetLocationByIdUseCase(repository),
             getFavouriteLocationByIdUseCase = GetFavouriteLocationByIdUseCase(repository)
         )
+    }
+    
+    @ViewModelScoped
+    @Provides
+    fun provideFilterEpisodeUseCase(): FilterEpisodeUseCase {
+        return FilterEpisodeUseCase()
     }
 }

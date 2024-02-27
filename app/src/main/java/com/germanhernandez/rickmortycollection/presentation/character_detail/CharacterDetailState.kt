@@ -4,5 +4,6 @@ import com.germanhernandez.rickmortycollection.domain.model.Character
 
 data class CharacterDetailState(
     val isLoading: Boolean = false,
-    val character: Character? = null
+    val character: Character? = null,
+    val episodeUiState: EpisodeUiState = EpisodeUiState()
 )
