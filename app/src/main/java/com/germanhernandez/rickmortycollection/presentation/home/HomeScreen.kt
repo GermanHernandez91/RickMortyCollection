@@ -102,7 +102,7 @@ fun HomeBody(
     locations: List<Location> = emptyList(),
     onCharactersClick: () -> Unit,
     onCharacterItemClick: (Int) -> Unit,
-    onLocationClick: (Int) -> Unit
+    onLocationClick: (String) -> Unit
 ) {
     LazyColumn(
         modifier = modifier.fillMaxSize()

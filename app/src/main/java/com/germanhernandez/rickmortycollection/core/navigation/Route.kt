@@ -17,7 +17,18 @@ sealed class Route(val name: String, @StringRes val title: Int) {
         }
     }
 
+    data object LocationDetail :
+        Route(
+            name = "location/{locationName}",
+            title = R.string.location_detail
+        ) {
+        fun withArgs(locationName: String): String {
+            return this.name.replace("{$LOCATION_DETAIL_NAME_ARGUMENT}", newValue = locationName)
+        }
+    }
+
     companion object {
         const val CHARACTER_DETAIL_ID_ARGUMENT = "id"
+        const val LOCATION_DETAIL_NAME_ARGUMENT = "locationName"
     }
 }

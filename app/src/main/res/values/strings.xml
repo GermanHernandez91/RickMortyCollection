@@ -5,6 +5,7 @@
     <string name="characters">Characters</string>
     <string name="search_characters">Search Characters</string>
     <string name="character_detail">Character Detail</string>
+    <string name="location_detail">Location Detail</string>
 
     <!-- Fallback descriptions -->
     <string name="back">arrow_back_icon</string>

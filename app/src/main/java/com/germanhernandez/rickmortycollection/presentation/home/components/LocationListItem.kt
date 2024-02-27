@@ -17,10 +17,10 @@ import com.germanhernandez.rickmortycollection.domain.model.Location
 fun LocationListItem(
     modifier: Modifier = Modifier,
     location: Location,
-    onLocationClick: (Int) -> Unit
+    onLocationClick: (String) -> Unit
 ) {
     Card(
-        onClick = { location.id?.let { onLocationClick(it) } },
+        onClick = { onLocationClick(location.name) },
         modifier = modifier
             .padding(12.dp)
             .fillMaxWidth()
