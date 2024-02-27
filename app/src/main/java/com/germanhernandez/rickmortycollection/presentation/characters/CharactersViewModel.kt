@@ -35,12 +35,6 @@ class CharactersViewModel @Inject constructor(
             is CharactersEvent.OnInitialize -> {
                 loadCharacters()
             }
-
-            is CharactersEvent.OnCharacterClick -> {
-                viewModelScope.launch {
-                    _uiEvent.send(UiEvent.Navigate(event.id.toString()))
-                }
-            }
         }
     }
 

@@ -20,13 +20,13 @@ class FakeCharacterRepositoryImpl : CharacterRepository {
     ): Result<List<Character>> {
         return if (errorToReturn != null) {
             Result.failure(errorToReturn!!)
-        } else Result.success(characters)
+        } else Result.success(charactersToReturn)
     }
 
     override suspend fun getCharacterById(id: Int): Result<Character> {
         return if (errorToReturn != null) {
             Result.failure(errorToReturn!!)
-        } else Result.success(characters.first())
+        } else Result.success(charactersToReturn.first())
     }
 
     override fun getFavouriteCharacters(): Flow<List<Character>> = flow {

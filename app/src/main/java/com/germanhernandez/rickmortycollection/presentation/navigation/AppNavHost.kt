@@ -34,6 +34,9 @@ fun AppNavHost(
                 },
                 onCharacterItemClick = { arg ->
                     navHostController.navigate(Route.CharacterDetail.withArgs(arg))
+                },
+                onLocationClick = { arg ->
+                    
                 }
             )
         }

@@ -54,8 +54,6 @@ fun SearchScreen(
 
                 }
 
-                is UiEvent.Navigate -> onCharacterItemClick(event.arg.orEmpty())
-
                 else -> Unit
             }
         }
@@ -94,7 +92,7 @@ fun SearchScreen(
             SearchBody(
                 searchResults = state.searchResults,
                 onCharacterClick = {
-                    viewModel.onEvent(SearchEvent.OnCharacterClick(it))
+                    onCharacterItemClick(it.toString())
                 },
             )
 

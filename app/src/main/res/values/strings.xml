@@ -22,6 +22,9 @@
     <!-- Characters -->
     <string name="characters_item_info">%s - %s</string>
 
+    <!-- Locations -->
+    <string name="locations">Locations</string>
+
     <!-- Search -->
     <string name="search_characters_hint">Search character</string>
     <string name="no_results">No Results\n</string>

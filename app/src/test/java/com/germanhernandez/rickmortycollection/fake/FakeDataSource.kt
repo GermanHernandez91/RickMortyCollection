@@ -1,6 +1,7 @@
 package com.germanhernandez.rickmortycollection.fake
 
 import com.germanhernandez.rickmortycollection.domain.model.Character
+import com.germanhernandez.rickmortycollection.domain.model.Location
 
 val characters = listOf(
     Character(
@@ -15,6 +16,19 @@ val characters = listOf(
             "https://rickandmortyapi.com/api/episode/1",
             "https://rickandmortyapi.com/api/episode/2",
             "https://rickandmortyapi.com/api/episode/3"
+        )
+    )
+)
+
+val locations = listOf(
+    Location(
+        id = 1,
+        name = "Earth",
+        type = "Planet",
+        dimension = "Dimension C-137",
+        residents = listOf(
+            "https://rickandmortyapi.com/api/character/1",
+            "https://rickandmortyapi.com/api/character/2"
         )
     )
 )

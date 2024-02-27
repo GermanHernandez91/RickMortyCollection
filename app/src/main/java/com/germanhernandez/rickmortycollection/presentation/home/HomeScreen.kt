@@ -6,9 +6,13 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -18,11 +22,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.germanhernandez.rickmortycollection.R
 import com.germanhernandez.rickmortycollection.core.navigation.Route
 import com.germanhernandez.rickmortycollection.core.util.UiEvent
 import com.germanhernandez.rickmortycollection.domain.model.Character
+import com.germanhernandez.rickmortycollection.domain.model.Location
 import com.germanhernandez.rickmortycollection.presentation.home.components.CharacterList
 import com.germanhernandez.rickmortycollection.presentation.home.components.CharacterListHeader
+import com.germanhernandez.rickmortycollection.presentation.home.components.LocationListItem
 import com.germanhernandez.rickmortycollection.presentation.navigation.NavBottomBar
 import com.germanhernandez.rickmortycollection.presentation.navigation.NavTopBar
 
@@ -32,12 +39,13 @@ fun HomeScreen(
     snackBarHostState: SnackbarHostState,
     onCharactersClick: () -> Unit,
     onCharacterItemClick: (String) -> Unit,
+    onLocationClick: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
     val state = viewModel.state
 
-    LaunchedEffect(key1 = context) {
+    LaunchedEffect(key1 = state) {
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is UiEvent.ShowSnackBar -> {
@@ -45,8 +53,6 @@ fun HomeScreen(
                         message = event.message.asString(context)
                     )
                 }
-
-                is UiEvent.Navigate -> onCharacterItemClick(event.arg.orEmpty())
 
                 else -> Unit
             }
@@ -68,8 +74,12 @@ fun HomeScreen(
             HomeBody(
                 characters = state.characters,
                 onCharactersClick = onCharactersClick,
+                locations = state.locations,
                 onCharacterItemClick = { id ->
-                    viewModel.onEvent(HomeEvent.OnCharacterClick(id))
+                    onCharacterItemClick(id.toString())
+                },
+                onLocationClick = { id ->
+                    onLocationClick(id.toString())
                 }
             )
 
@@ -89,18 +99,35 @@ fun HomeScreen(
 fun HomeBody(
     modifier: Modifier = Modifier,
     characters: List<Character> = emptyList(),
+    locations: List<Location> = emptyList(),
     onCharactersClick: () -> Unit,
-    onCharacterItemClick: (Int) -> Unit
+    onCharacterItemClick: (Int) -> Unit,
+    onLocationClick: (Int) -> Unit
 ) {
-    Column(
+    LazyColumn(
         modifier = modifier.fillMaxSize()
     ) {
-        CharacterListHeader(onClickEvent = onCharactersClick)
-        Spacer(modifier = Modifier.height(16.dp))
-        CharacterList(
-            modifier = modifier,
-            characters = characters,
-            onCharacterItemClick = onCharacterItemClick
-        )
+        item {
+            CharacterListHeader(onClickEvent = onCharactersClick)
+            Spacer(modifier = Modifier.height(8.dp))
+            CharacterList(
+                modifier = modifier,
+                characters = characters,
+                onCharacterItemClick = onCharacterItemClick
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(R.string.locations),
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
+        items(locations) { location ->
+            LocationListItem(
+                location = location,
+                onLocationClick = onLocationClick
+            )
+        }
     }
 }

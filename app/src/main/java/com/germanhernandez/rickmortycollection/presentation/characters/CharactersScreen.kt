@@ -27,18 +27,7 @@ fun CharactersScreen(
     onCharacterItemClick: (String) -> Unit,
     viewModel: CharactersViewModel = hiltViewModel()
 ) {
-    val context = LocalContext.current
     val state = viewModel.state
-
-    LaunchedEffect(key1 = context) {
-        viewModel.uiEvent.collect { event ->
-            when (event) {
-                is UiEvent.Navigate -> onCharacterItemClick(event.arg.orEmpty())
-
-                else -> Unit
-            }
-        }
-    }
 
     Scaffold(
         topBar = {
@@ -61,7 +50,7 @@ fun CharactersScreen(
             state = state,
             modifier = Modifier.padding(it),
             onCharacterClick = { id ->
-                viewModel.onEvent(CharactersEvent.OnCharacterClick(id))
+                onCharacterItemClick(id.toString())
             }
         )
     }

@@ -10,6 +10,7 @@ import com.germanhernandez.rickmortycollection.core.Constants
 import com.germanhernandez.rickmortycollection.core.util.UiEvent
 import com.germanhernandez.rickmortycollection.core.util.UiText
 import com.germanhernandez.rickmortycollection.domain.use_case.CharacterUseCases
+import com.germanhernandez.rickmortycollection.domain.use_case.LocationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val characterUseCases: CharacterUseCases
+    private val characterUseCases: CharacterUseCases,
+    private val locationUseCases: LocationUseCases
 ) : ViewModel() {
 
     var state by mutableStateOf(HomeState())
@@ -36,12 +38,6 @@ class HomeViewModel @Inject constructor(
             is HomeEvent.OnInitialize -> {
                 loadCharacters()
             }
-
-            is HomeEvent.OnCharacterClick -> {
-                viewModelScope.launch {
-                    _uiEvent.send(UiEvent.Navigate(event.id.toString()))
-                }
-            }
         }
     }
 
@@ -58,19 +54,38 @@ class HomeViewModel @Inject constructor(
                     status = null,
                 )
                 .onSuccess { characters ->
-                    state = state.copy(
-                        isLoading = false,
-                        characters = characters
-                    )
+                    state = state.copy(characters = characters)
+                    loadLocations()
                 }
                 .onFailure {
-                    state = state.copy(isLoading = false)
-                    _uiEvent.send(
-                        UiEvent.ShowSnackBar(
-                            UiText.StringResource(R.string.error_something_went_wrong)
-                        )
-                    )
+                    handleLoadError()
                 }
         }
+    }
+
+    private fun loadLocations() {
+        viewModelScope.launch {
+            locationUseCases
+                .getAllLocationsUseCase(
+                    name = null,
+                    type = null,
+                    dimension = null
+                )
+                .onSuccess { locations ->
+                    state = state.copy(isLoading = false, locations = locations)
+                }
+                .onFailure {
+                    handleLoadError()
+                }
+        }
+    }
+
+    private suspend fun handleLoadError() {
+        state = state.copy(isLoading = false)
+        _uiEvent.send(
+            UiEvent.ShowSnackBar(
+                UiText.StringResource(R.string.error_something_went_wrong)
+            )
+        )
     }
 }
