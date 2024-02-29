@@ -1,22 +1,28 @@
 package com.germanhernandez.rickmortycollection.presentation.character_detail
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.germanhernandez.rickmortycollection.R
@@ -27,6 +33,7 @@ import com.germanhernandez.rickmortycollection.presentation.character_detail.com
 import com.germanhernandez.rickmortycollection.presentation.character_detail.components.CharacterDetailHeader
 import com.germanhernandez.rickmortycollection.presentation.character_detail.components.CharacterDetailInfo
 import com.germanhernandez.rickmortycollection.presentation.character_detail.components.CharacterDetailName
+import com.germanhernandez.rickmortycollection.presentation.components.EmptyScreen
 import com.germanhernandez.rickmortycollection.presentation.navigation.NavTopBar
 
 @Composable
@@ -37,7 +44,6 @@ fun CharacterDetailScreen(
 ) {
     val context = LocalContext.current
     val state = viewModel.state
-    val scrollState = rememberScrollState()
 
     LaunchedEffect(key1 = context) {
         viewModel.uiEvent.collect { event ->
@@ -62,21 +68,24 @@ fun CharacterDetailScreen(
             )
         }
     ) {
-        Column(
+        LazyColumn(
             modifier = Modifier
-                .verticalScroll(scrollState)
                 .padding(it)
                 .fillMaxSize()
         ) {
-            CharacterDetailBody(
-                character = state.character,
-                modifier = Modifier.padding(16.dp),
-                episodeUiState = state.episodeUiState,
-                onClick = {
-                    viewModel.onEvent(CharacterDetailEvent.OnToggleEpisodeClick)
-                }
-            )
+            item {
+                CharacterDetailBody(
+                    character = state.character,
+                    modifier = Modifier.padding(16.dp),
+                    episodeUiState = state.episodeUiState,
+                    onClick = {
+                        viewModel.onEvent(CharacterDetailEvent.OnToggleEpisodeClick)
+                    }
+                )
+            }
         }
+
+        EmptyScreen(isLoading = state.isLoading, data = listOf(""))
     }
 }
 
@@ -104,14 +113,22 @@ fun CharacterDetailBody(
                             .fillMaxWidth()
                             .padding(horizontal = 8.dp)
                     ) {
-                        Column(modifier = Modifier.padding(12.dp)) {
-                            episodeUiState.episodes.forEach { episode ->
+                        Column(
+                            modifier = Modifier.padding(12.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp)
+                        ) {
+                            episodeUiState.episodes.forEachIndexed { index, episode ->
                                 Text(
                                     text = stringResource(
                                         id = R.string.character_detail_info_episode,
                                         episode
-                                    )
+                                    ),
+                                    modifier = Modifier.padding(10.dp)
                                 )
+
+                                if (episodeUiState.episodes.lastIndex != index) {
+                                    Divider()
+                                }
                             }
                         }
                     }

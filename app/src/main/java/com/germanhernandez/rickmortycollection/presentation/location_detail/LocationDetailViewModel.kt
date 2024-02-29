@@ -61,7 +61,8 @@ class LocationDetailViewModel @Inject constructor(
                 .onSuccess { characters ->
                     state = state.copy(
                         isLoading = false,
-                        characters = filterCharacterUseCase(locationName, characters)
+                        characters = filterCharacterUseCase(locationName, characters),
+                        locationName = locationName
                     )
                 }
                 .onFailure {

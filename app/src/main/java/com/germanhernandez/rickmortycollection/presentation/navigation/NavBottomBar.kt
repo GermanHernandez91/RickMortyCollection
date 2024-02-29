@@ -3,10 +3,12 @@ package com.germanhernandez.rickmortycollection.presentation.navigation
 import androidx.compose.foundation.Image
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -21,7 +23,9 @@ fun NavBottomBar(
         RouteBottom.Home
     )
 
-    NavigationBar {
+    NavigationBar(
+        modifier = modifier
+    ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
 
@@ -35,11 +39,17 @@ fun NavBottomBar(
                     }
                 },
                 icon = {
-                    Image(imageVector = item.icon, contentDescription = item.name)
+                    Image(
+                        imageVector = item.icon,
+                        contentDescription = item.name
+                    )
                 },
                 label = {
                     Text(text = stringResource(id = item.title))
-                }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    indicatorColor = Color.White
+                )
             )
         }
     }

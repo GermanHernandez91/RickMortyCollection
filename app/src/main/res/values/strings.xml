@@ -3,9 +3,8 @@
 
     <!-- Screens -->
     <string name="characters">Characters</string>
-    <string name="search_characters">Search Characters</string>
-    <string name="character_detail">Character Detail</string>
-    <string name="location_detail">Location Detail</string>
+    <string name="character_detail" />
+    <string name="location_detail">%s</string>
 
     <!-- Fallback descriptions -->
     <string name="back">arrow_back_icon</string>
@@ -13,6 +12,7 @@
     <string name="search">Search icon</string>
     <string name="collapse">Collapse icon</string>
     <string name="extend">Extend icon</string>
+    <string name="empty_results">Empty results icon</string>
 
     <!-- Navigation -->
     <string name="nav_bottom_home">Home</string>

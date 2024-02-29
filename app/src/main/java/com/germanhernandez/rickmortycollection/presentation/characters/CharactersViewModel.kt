@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.germanhernandez.rickmortycollection.R
+import com.germanhernandez.rickmortycollection.core.Constants
 import com.germanhernandez.rickmortycollection.core.util.UiEvent
 import com.germanhernandez.rickmortycollection.core.util.UiText
 import com.germanhernandez.rickmortycollection.domain.use_case.CharacterUseCases
@@ -35,6 +36,23 @@ class CharactersViewModel @Inject constructor(
             is CharactersEvent.OnInitialize -> {
                 loadCharacters()
             }
+
+            is CharactersEvent.OnQueryChange -> {
+                state = state.copy(query = event.query)
+            }
+
+            is CharactersEvent.OnSearch -> {
+                performSearch()
+            }
+
+            is CharactersEvent.OnSearchActiveChanged -> {
+                state = state.copy(
+                    isSearching = !event.isActive,
+                    query = if (!event.isActive.not()) {
+                        ""
+                    } else state.query
+                )
+            }
         }
     }
 
@@ -44,7 +62,7 @@ class CharactersViewModel @Inject constructor(
 
             characterUseCases
                 .getAllCharactersUseCase(
-                    page = state.currentPage,
+                    page = Constants.DEFAULT_CHARACTER_PAGE,
                     name = null,
                     status = null,
                     type = null,
@@ -52,12 +70,41 @@ class CharactersViewModel @Inject constructor(
                 )
                 .onSuccess { characters ->
                     state = state.copy(
-                        isLoading = true,
+                        isLoading = false,
                         characters = characters
                     )
                 }
                 .onFailure {
                     state = state.copy(isLoading = false)
+                    _uiEvent.send(
+                        UiEvent.ShowSnackBar(
+                            message = UiText.StringResource(R.string.error_something_went_wrong)
+                        )
+                    )
+                }
+        }
+    }
+
+    private fun performSearch() {
+        viewModelScope.launch {
+            state = state.copy(searchResults = emptyList())
+
+            characterUseCases
+                .getAllCharactersUseCase(
+                    page = Constants.DEFAULT_CHARACTER_PAGE,
+                    name = state.query,
+                    status = null,
+                    type = null,
+                    species = null
+                )
+                .onSuccess { characters ->
+                    state = state.copy(
+                        query = "",
+                        searchResults = characters
+                    )
+                }
+                .onFailure {
+                    state = state.copy(isSearching = false)
                     _uiEvent.send(
                         UiEvent.ShowSnackBar(
                             message = UiText.StringResource(R.string.error_something_went_wrong)

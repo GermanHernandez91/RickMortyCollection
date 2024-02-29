@@ -4,6 +4,8 @@ import com.germanhernandez.rickmortycollection.domain.model.Character
 
 data class CharactersState(
     val isLoading: Boolean = false,
-    val currentPage: Int = 1,
-    val characters: List<Character> = emptyList()
+    val characters: List<Character> = emptyList(),
+    val query: String = "",
+    val isSearching: Boolean = false,
+    val searchResults: List<Character> = emptyList()
 )

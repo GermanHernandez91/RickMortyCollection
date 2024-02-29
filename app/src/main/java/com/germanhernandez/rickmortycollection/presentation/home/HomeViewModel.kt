@@ -43,7 +43,7 @@ class HomeViewModel @Inject constructor(
 
     private fun loadCharacters() {
         viewModelScope.launch {
-            state = state.copy(isLoading = false, characters = emptyList())
+            state = state.copy(isLoading = true, characters = emptyList())
 
             characterUseCases
                 .getAllCharactersUseCase(

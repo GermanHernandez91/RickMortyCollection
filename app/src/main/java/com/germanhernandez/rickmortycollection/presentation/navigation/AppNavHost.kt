@@ -13,7 +13,6 @@ import com.germanhernandez.rickmortycollection.presentation.character_detail.Cha
 import com.germanhernandez.rickmortycollection.presentation.characters.CharactersScreen
 import com.germanhernandez.rickmortycollection.presentation.home.HomeScreen
 import com.germanhernandez.rickmortycollection.presentation.location_detail.LocationDetailScreen
-import com.germanhernandez.rickmortycollection.presentation.search.SearchScreen
 
 @Composable
 fun AppNavHost(
@@ -44,22 +43,10 @@ fun AppNavHost(
 
         composable(route = Route.Characters.name) {
             CharactersScreen(
+                snackBarHostState = snackBarHostState,
                 onNavigateUp = {
                     navHostController.navigateUp()
                 },
-                onSearchClick = {
-                    navHostController.navigate(Route.Search.name)
-                },
-                onCharacterItemClick = { arg ->
-                    navHostController.navigate(Route.CharacterDetail.withArgs(arg))
-                }
-            )
-        }
-
-        composable(route = Route.Search.name) {
-            SearchScreen(
-                snackBarHostState = snackBarHostState,
-                onNavigateUp = { navHostController.navigateUp() },
                 onCharacterItemClick = { arg ->
                     navHostController.navigate(Route.CharacterDetail.withArgs(arg))
                 }
