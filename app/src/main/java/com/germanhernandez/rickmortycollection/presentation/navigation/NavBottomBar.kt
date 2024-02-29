@@ -20,7 +20,8 @@ fun NavBottomBar(
     navController: NavController
 ) {
     val navBottomItems = listOf(
-        RouteBottom.Home
+        RouteBottom.Home,
+        RouteBottom.Favourites
     )
 
     NavigationBar(

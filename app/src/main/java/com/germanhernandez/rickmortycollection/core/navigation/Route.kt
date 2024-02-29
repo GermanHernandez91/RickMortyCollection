@@ -26,6 +26,8 @@ sealed class Route(val name: String, @StringRes val title: Int) {
         }
     }
 
+    data object Favourites : Route(name = "favourites", title = R.string.nav_bottom_favourites)
+
     companion object {
         const val CHARACTER_DETAIL_ID_ARGUMENT = "id"
         const val LOCATION_DETAIL_NAME_ARGUMENT = "locationName"

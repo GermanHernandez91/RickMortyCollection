@@ -13,9 +13,11 @@
     <string name="collapse">Collapse icon</string>
     <string name="extend">Extend icon</string>
     <string name="empty_results">Empty results icon</string>
+    <string name="favourite_icon">Favourite icon</string>
 
     <!-- Navigation -->
     <string name="nav_bottom_home">Home</string>
+    <string name="nav_bottom_favourites">Favourites</string>
 
     <!-- Errors -->
     <string name="error_something_went_wrong">Something went wrong</string>

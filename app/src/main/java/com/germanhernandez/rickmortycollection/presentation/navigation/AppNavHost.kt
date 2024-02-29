@@ -11,6 +11,7 @@ import androidx.navigation.navArgument
 import com.germanhernandez.rickmortycollection.core.navigation.Route
 import com.germanhernandez.rickmortycollection.presentation.character_detail.CharacterDetailScreen
 import com.germanhernandez.rickmortycollection.presentation.characters.CharactersScreen
+import com.germanhernandez.rickmortycollection.presentation.favourites.FavouritesScreen
 import com.germanhernandez.rickmortycollection.presentation.home.HomeScreen
 import com.germanhernandez.rickmortycollection.presentation.location_detail.LocationDetailScreen
 
@@ -78,6 +79,10 @@ fun AppNavHost(
                     navHostController.navigate(Route.CharacterDetail.withArgs(arg))
                 }
             )
+        }
+
+        composable(route = Route.Favourites.name) {
+            FavouritesScreen(navController = navHostController)
         }
     }
 }
