@@ -45,6 +45,7 @@ fun CharacterDetailEpisodes(
             ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
@@ -69,7 +70,7 @@ fun CharacterDetailEpisodes(
 }
 
 @Composable
-@Preview
+@Preview(showBackground = true)
 fun PreviewCharacterDetailEpisodes() {
     RickMortyCollectionTheme {
         CharacterDetailEpisodes(
