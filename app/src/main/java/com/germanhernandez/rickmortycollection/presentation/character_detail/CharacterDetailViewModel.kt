@@ -61,13 +61,21 @@ class CharacterDetailViewModel @Inject constructor(
 
     private fun addFavouriteCharacter() {
         viewModelScope.launch {
-            if (!state.isFavourite) {
-                state.character?.let {
+            state.character?.let {
+                if (!state.isFavourite) {
                     charactersUseCases.addFavouriteCharacterUseCase(it)
-                    state = state.copy(isFavourite = true)
+                    checkCharacterFavourite()
                     _uiEvent.send(
                         UiEvent.ShowSnackBar(
                             message = UiText.StringResource(R.string.favourites_add_success)
+                        )
+                    )
+                } else {
+                    charactersUseCases.deleteFavouriteCharacterUseCase(it)
+                    checkCharacterFavourite()
+                    _uiEvent.send(
+                        UiEvent.ShowSnackBar(
+                            message = UiText.StringResource(R.string.favourites_delete_success)
                         )
                     )
                 }
@@ -106,7 +114,7 @@ class CharacterDetailViewModel @Inject constructor(
         viewModelScope.launch {
             charactersUseCases
                 .getFavouriteCharacterByIdUseCase(id)
-                .catch { state = state.copy(isLoading = false) }
+                .catch { state = state.copy(isFavourite = false) }
                 .collect { character ->
                     state = state.copy(isFavourite = character.id == id)
                 }

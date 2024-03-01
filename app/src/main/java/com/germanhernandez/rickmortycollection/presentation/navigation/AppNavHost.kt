@@ -82,7 +82,13 @@ fun AppNavHost(
         }
 
         composable(route = Route.Favourites.name) {
-            FavouritesScreen(navController = navHostController)
+            FavouritesScreen(
+                snackBarHostState = snackBarHostState,
+                navController = navHostController,
+                onCharacterItemClick = { arg ->
+                    navHostController.navigate(Route.CharacterDetail.withArgs(arg))
+                }
+            )
         }
     }
 }

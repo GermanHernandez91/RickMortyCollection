@@ -41,4 +41,5 @@
 
     <!-- Favourites -->
     <string name="favourites_add_success">Character has been saved successfully</string>
+    <string name="favourites_delete_success">Character has been removed successfully</string>
 </resources>
