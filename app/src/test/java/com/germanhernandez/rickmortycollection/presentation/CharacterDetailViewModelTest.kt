@@ -70,4 +70,25 @@ class CharacterDetailViewModelTest {
         characterDetailViewModel.onEvent(CharacterDetailEvent.OnToggleEpisodeClick)
         assertThat(characterDetailViewModel.state.episodeUiState.isExpanded).isFalse()
     }
+
+    @Test
+    fun `OnFavouriteClick, favourite clicked, add favourite`() = runBlocking {
+        characterDetailViewModel.onEvent(CharacterDetailEvent.OnFavouriteClick)
+        assertThat(characterDetailViewModel.state.isFavourite).isTrue()
+    }
+
+    @Test
+    fun `OnInitialize, loadFavourite, return results`() = runBlocking {
+        characterDetailViewModel.onEvent(CharacterDetailEvent.OnFavouriteClick)
+        characterDetailViewModel.onEvent(CharacterDetailEvent.OnInitialize)
+
+        assertThat(characterDetailViewModel.state.isFavourite).isTrue()
+    }
+
+    @Test
+    fun `OnInitialize, loadFavourite failed, set isFavourite`() = runBlocking {
+        characterDetailViewModel.onEvent(CharacterDetailEvent.OnInitialize)
+
+        assertThat(characterDetailViewModel.state.isFavourite).isFalse()
+    }
 }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
@@ -69,9 +70,13 @@ fun CharacterDetailScreen(
         },
         floatingActionButtonPosition = FabPosition.End,
         floatingActionButton = {
-            FloatingActionButton(onClick = { /*TODO*/ }) {
+            FloatingActionButton(onClick = {
+                viewModel.onEvent(CharacterDetailEvent.OnFavouriteClick)
+            }) {
                 Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
+                    imageVector = if (state.isFavourite) {
+                        Icons.Default.Favorite
+                    } else Icons.Default.FavoriteBorder,
                     contentDescription = stringResource(id = R.string.favourite_icon)
                 )
             }

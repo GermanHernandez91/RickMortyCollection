@@ -5,29 +5,32 @@ import com.germanhernandez.rickmortycollection.fake.FakeCharacterRepositoryImpl
 import com.germanhernandez.rickmortycollection.fake.characters
 import com.germanhernandez.rickmortycollection.util.TestDispatcherRule
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class GetAllCharactersUseCaseTest {
+class GetFavouriteCharacterByIdUseCaseTest {
 
     @get:Rule
     val testDispatcher = TestDispatcherRule()
 
-    private lateinit var getAllCharactersUseCaseTest: GetAllCharactersUseCase
+    private lateinit var getFavouriteCharacterByIdUseCase: GetFavouriteCharacterByIdUseCase
     private lateinit var repository: CharacterRepository
 
     @Before
     fun setUp() {
         repository = FakeCharacterRepositoryImpl()
-        getAllCharactersUseCaseTest = GetAllCharactersUseCase(repository = repository)
+        getFavouriteCharacterByIdUseCase = GetFavouriteCharacterByIdUseCase(repository = repository)
     }
 
     @Test
     fun `Invoke, valid response, returns results`() = runBlocking {
+        val id = characters.first().id ?: 0
+
         assertThat(
-            getAllCharactersUseCaseTest(1, null, null, null, null)
-        ).isEqualTo(Result.success(characters))
+            getFavouriteCharacterByIdUseCase(id).first()
+        ).isEqualTo(characters.first())
     }
 }

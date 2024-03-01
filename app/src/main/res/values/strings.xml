@@ -38,4 +38,7 @@
     <string name="character_detail_info_location">Location: %s</string>
     <string name="character_detail_info_origin">Origin: %s</string>
     <string name="character_detail_info_episode">Episode #%s</string>
+
+    <!-- Favourites -->
+    <string name="favourites_add_success">Character has been saved successfully</string>
 </resources>

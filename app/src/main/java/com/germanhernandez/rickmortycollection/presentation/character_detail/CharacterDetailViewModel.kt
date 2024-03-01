@@ -14,6 +14,7 @@ import com.germanhernandez.rickmortycollection.domain.use_case.CharacterUseCases
 import com.germanhernandez.rickmortycollection.domain.use_case.FilterEpisodeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -51,6 +52,26 @@ class CharacterDetailViewModel @Inject constructor(
                         )
                     )
             }
+
+            is CharacterDetailEvent.OnFavouriteClick -> {
+                addFavouriteCharacter()
+            }
+        }
+    }
+
+    private fun addFavouriteCharacter() {
+        viewModelScope.launch {
+            if (!state.isFavourite) {
+                state.character?.let {
+                    charactersUseCases.addFavouriteCharacterUseCase(it)
+                    state = state.copy(isFavourite = true)
+                    _uiEvent.send(
+                        UiEvent.ShowSnackBar(
+                            message = UiText.StringResource(R.string.favourites_add_success)
+                        )
+                    )
+                }
+            }
         }
     }
 
@@ -68,6 +89,7 @@ class CharacterDetailViewModel @Inject constructor(
                             episodes = filterEpisodeUseCase(character.episode.orEmpty())
                         )
                     )
+                    checkCharacterFavourite()
                 }
                 .onFailure {
                     state = state.copy(isLoading = false)
@@ -76,6 +98,17 @@ class CharacterDetailViewModel @Inject constructor(
                             message = UiText.StringResource(R.string.error_something_went_wrong)
                         )
                     )
+                }
+        }
+    }
+
+    private fun checkCharacterFavourite() {
+        viewModelScope.launch {
+            charactersUseCases
+                .getFavouriteCharacterByIdUseCase(id)
+                .catch { state = state.copy(isLoading = false) }
+                .collect { character ->
+                    state = state.copy(isFavourite = character.id == id)
                 }
         }
     }
